@@ -14,9 +14,8 @@ type HomeStackParamList = RootBottomParamList & {
   Book: undefined;
 };
 
-const HomeStack = createNativeStackNavigator<HomeStackParamList>();
-
 const Tab = createBottomTabNavigator<RootBottomParamList>();
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
