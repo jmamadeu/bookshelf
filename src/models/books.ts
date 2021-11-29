@@ -3,8 +3,8 @@ export type BookCategoryResponseType = {
 };
 
 export type BookCategoryType = {
-  display_name: String;
-  list_name_encoded: String;
+  display_name: string;
+  list_name_encoded: string;
 };
 
 export type BookProperties = {

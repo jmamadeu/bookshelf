@@ -9,7 +9,7 @@ const fetchBookCategories = async () => {
   );
   const dataParsed: BookCategoryType[] = data.results.map((book) => ({
     display_name: book.display_name,
-    list_name_encoded: book.display_name,
+    list_name_encoded: book.list_name_encoded,
   }));
 
   return dataParsed;

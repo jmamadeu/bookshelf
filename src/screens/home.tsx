@@ -1,7 +1,14 @@
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import {
+  CompositeNavigationProp,
+  useNavigation
+} from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import {
   FlatList,
   Image,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -15,11 +22,25 @@ import { BookCard } from "../components/book-card";
 import { CategoryCard } from "../components/category-card";
 import { useBooksCategory } from "../hooks/useBooksCategory";
 import { useBooks } from "../hooks/useBooksOverview";
+import { HomeStackParamList, RootBottomParamList } from "../routes";
 import { theme } from "../theme";
 
+type HomeScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootBottomParamList, "Home">,
+  NativeStackNavigationProp<HomeStackParamList>
+>;
+
 export function Home() {
+  const { navigate } = useNavigation<HomeScreenNavigationProp>();
   const { data: categories = [] } = useBooksCategory();
   const { data: books = [] } = useBooks();
+
+  const handleCategoryClick = (category: string) => {
+    console.log(category);
+    navigate("Category", {
+      categoryId: category,
+    });
+  };
 
   return (
     <>
@@ -66,9 +87,14 @@ export function Home() {
               data={categories}
               style={styles.list}
               renderItem={(item) => (
-                <View style={styles.listItem}>
+                <Pressable
+                  style={styles.listItem}
+                  onPress={() =>
+                    handleCategoryClick(item.item.list_name_encoded)
+                  }
+                >
                   <CategoryCard category={item.item} />
-                </View>
+                </Pressable>
               )}
               extraData={categories}
               keyExtractor={(item) => String(item.list_name_encoded)}
@@ -87,7 +113,7 @@ export function Home() {
                   <BookCard book={item.item} />
                 </View>
               )}
-              keyExtractor={(item) => String(item.book_image)}
+              keyExtractor={(index) => String(index)}
               horizontal={true}
             />
           </View>
