@@ -13,9 +13,14 @@ import {
 import Icon from "react-native-vector-icons/Feather";
 import { BookCard } from "../components/book-card";
 import { CategoryCard } from "../components/category-card";
+import { useBooksCategory } from "../hooks/useBooksCategory";
+import { useBooks } from "../hooks/useBooksOverview";
 import { theme } from "../theme";
 
 export function Home() {
+  const { data: categories = [] } = useBooksCategory();
+  const { data: books = [] } = useBooks();
+
   return (
     <>
       <ExpoStatusBar backgroundColor={theme.colors.white} />
@@ -41,14 +46,15 @@ export function Home() {
             <Text style={styles.categoryTitle}>For you</Text>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={[1, 2, 3, 4, 5]}
+              data={books}
+              extraData={books}
               style={styles.list}
-              renderItem={() => (
+              renderItem={(item) => (
                 <View style={styles.listItem}>
-                  <BookCard />
+                  <BookCard book={item.item} />
                 </View>
               )}
-              keyExtractor={(item) => String(item)}
+              keyExtractor={(item) => String(item.book_uri)}
               horizontal={true}
             />
           </View>
@@ -57,14 +63,15 @@ export function Home() {
             <Text style={styles.categoryTitle}>Categories</Text>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={[1, 2, 3, 4, 5]}
+              data={categories}
               style={styles.list}
-              renderItem={() => (
+              renderItem={(item) => (
                 <View style={styles.listItem}>
-                  <CategoryCard />
+                  <CategoryCard category={item.item} />
                 </View>
               )}
-              keyExtractor={(item) => String(item)}
+              extraData={categories}
+              keyExtractor={(item) => String(item.list_name_encoded)}
               horizontal={true}
             />
           </View>
@@ -73,14 +80,14 @@ export function Home() {
             <Text style={styles.categoryTitle}>The most read of the week</Text>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={[1, 2, 3, 4, 5]}
+              data={books.slice().reverse()}
               style={styles.list}
-              renderItem={() => (
+              renderItem={(item) => (
                 <View style={styles.listItem}>
-                  <BookCard />
+                  <BookCard book={item.item} />
                 </View>
               )}
-              keyExtractor={(item) => String(item)}
+              keyExtractor={(item) => String(item.book_image)}
               horizontal={true}
             />
           </View>

@@ -1,11 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
+import { BookCategoryType } from "../models/books";
 import { theme } from "../theme";
 
-export function CategoryCard() {
+type CategoryType = {
+  category: BookCategoryType;
+};
+
+export function CategoryCard({ category }: CategoryType) {
   return (
     <View>
       <View style={styles.container}></View>
-      <Text style={styles.name}>Sam Mingas</Text>
+      <Text style={styles.name}>{category.display_name}</Text>
     </View>
   );
 }
@@ -20,6 +25,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 14,
     color: theme.colors.gray1,
-    fontWeight: "bold",
+    fontWeight: "700",
+    width: 74,
   },
 });
