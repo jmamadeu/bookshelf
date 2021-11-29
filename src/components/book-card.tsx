@@ -7,22 +7,20 @@ type BookType = {
   book: BookProperties;
 };
 
-export function BookCard({ book }: BookType) {
-  return (
-    <View style={styles.container}>
-      <Image
-        style={styles.bookImage}
-        source={{
-          uri: book?.book_image,
-        }}
-        accessibilityIgnoresInvertColors
-      />
-      <Text style={styles.title}>{book?.title}</Text>
-      <Text style={styles.author}>{book?.author}</Text>
-      <Icon name="star" color={theme.colors.primary} />
-    </View>
-  );
-}
+export const BookCard = ({ book }: BookType) => (
+  <View style={styles.container}>
+    <Image
+      style={styles.bookImage}
+      source={{
+        uri: book?.book_image,
+      }}
+      accessibilityIgnoresInvertColors
+    />
+    <Text style={styles.title}>{book?.title}</Text>
+    <Text style={styles.author}>{book?.author}</Text>
+    <Icon name="star" color={theme.colors.primary} />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {},
